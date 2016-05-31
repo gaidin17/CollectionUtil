@@ -1,7 +1,6 @@
 package utils;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Evgeny_Akulenko on 5/26/2016.
@@ -9,16 +8,16 @@ import java.util.List;
 public class CollectionUtil {
     public <T> T findMax(List<? extends T> list, Comparator<? super T> comparator) {
         T max = null;
-        if (list != null) {
-            if (list.size() != 0) {
-                max = list.get(0);
-                for (T elem : list) {
-                    if (comparator.compare(max, elem) < 0) {
-                        max = elem;
-                    }
-                }
+        if (list == null || list.size() == 0) {
+            return null;
+        }
+        max = list.get(0);
+        for (T elem : list) {
+            if (comparator.compare(max, elem) < 0) {
+                max = elem;
             }
         }
         return max;
     }
 }
+

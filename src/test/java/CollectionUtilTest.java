@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
  */
 public class CollectionUtilTest {
     @Test
-    public void testA(){
+    public void testWithParentClass() {
 
         List<TestClass> list = new ArrayList<TestClass>();
         TestClass testClass1 = new TestClass(10);
@@ -30,12 +30,12 @@ public class CollectionUtilTest {
 
 
         CollectionUtil collectionUtil = new CollectionUtil();
-        TestClass maxTestClass = collectionUtil.findMax(list, new TestClassComparator());
+        TestClass maxTestClass = collectionUtil.findMax(list, (a, b) -> a.getValue() - b.getValue());
         assertEquals(79, maxTestClass.getValue());
     }
 
     @Test
-    public void testB(){
+    public void testWithChildClass() {
         List<TestClassTwink> list = new ArrayList<TestClassTwink>();
         TestClassTwink testClass1 = new TestClassTwink(10);
         TestClassTwink testClass2 = new TestClassTwink(15);
@@ -50,10 +50,9 @@ public class CollectionUtilTest {
         list.add(testClass5);
         list.add(testClass6);
 
-
         CollectionUtil collectionUtil = new CollectionUtil();
         TestClass maxTestClass = collectionUtil.findMax(list, new TestClassComparator());
-        assertEquals(179, maxTestClass.getValue());
+        assertEquals(79, maxTestClass.getValue());
     }
 
 }
@@ -61,7 +60,8 @@ public class CollectionUtilTest {
 
 class TestClass {
     private int value;
-    public TestClass(int value){
+
+    public TestClass(int value) {
         this.value = value;
     }
 
@@ -70,32 +70,28 @@ class TestClass {
     }
 }
 
-class TestClassTwink extends TestClass{
-    //private int thisValue;
-    public TestClassTwink(int thisValue){
+class TestClassTwink extends TestClass {
+
+    public TestClassTwink(int thisValue) {
         super(thisValue);
     }
 
     @Override
     public int getValue() {
-        return super.getValue() + 100;
+        return super.getValue();
     }
 }
 
 
-
-
-class TestClassComparator implements Comparator<TestClass>{
+class TestClassComparator implements Comparator<TestClass> {
 
     public int compare(TestClass testClass1, TestClass testClass2) {
         int result = 0;
-        if (testClass1.getValue() > testClass2.getValue()){
+        if (testClass1.getValue() > testClass2.getValue()) {
             result = 1;
-        }
-        else if (testClass1.getValue() < testClass2.getValue()){
+        } else if (testClass1.getValue() < testClass2.getValue()) {
             result = -1;
-        }
-        else if (testClass1.getValue() == testClass2.getValue()) {
+        } else if (testClass1.getValue() == testClass2.getValue()) {
             result = 0;
         }
 
